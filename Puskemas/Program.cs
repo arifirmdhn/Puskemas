@@ -4,22 +4,37 @@ using Puskemas.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-//var connectionString = builder.Configuration.GetConnectionString("IdentityConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-//builder.Services.AddDbContext<ApplicationDbContext>(options =>
-//    options.UseSqlServer(connectionString));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-//    .AddEntityFrameworkStores<ApplicationDbContext>();
-//builder.Services.AddControllersWithViews();
+// ----------------------------
+// DATABASE CONFIGURATION
+// ----------------------------
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+                      ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(connectionString));
+
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+// ----------------------------
+// IDENTITY CONFIGURATION (Jika diperlukan login/akun)
+// ----------------------------
+builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false; // ubah ke true jika perlu konfirmasi email
+})
+.AddEntityFrameworkStores<AppDbContext>();
+
+// ----------------------------
+// MVC + Razor Pages
+// ----------------------------
+builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// ----------------------------
+// MIDDLEWARE
+// ----------------------------
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
@@ -27,7 +42,6 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -36,11 +50,13 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication(); // Penting jika menggunakan Identity
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapRazorPages();
+
+app.MapRazorPages(); // Aktifkan Razor Pages untuk Identity
 
 app.Run();
