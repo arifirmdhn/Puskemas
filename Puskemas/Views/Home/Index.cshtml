@@ -2,7 +2,73 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Hero Section -->
+<div class="container-fluid bg-light py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <!-- Kolom Teks -->
+            <div class="col-md-6 mb-4 mb-md-0">
+                <h1 class="display-4 fw-bold text-primary">
+                    Perawatan Luar Biasa,<br>
+                    <span class="text-success">Setiap Saat</span>
+                </h1>
+                <p class="lead mt-3">
+                    Pelajari selengkapnya tentang layanan kami dan buat janji temu dengan dokter profesional.
+                </p>
+                <a class="btn btn-primary btn-lg me-2 mt-2" href="#">Login sebagai admin</a>
+                <a class="btn btn-outline-success btn-lg mt-2" href="#">Login sebagai pasien</a>
+            </div>
+
+            <!-- Kolom Gambar -->
+            <div class="col-md-6 text-center">
+                <img src="~/images/dokter1.png" class="img-fluid" alt="Doctor" style="max-width: 100%; height: auto;" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Facilities and Services -->
+<div class="container-fluid bg-white py-5">
+    <div class="container">
+        <h2 class="fw-bold text-center mb-5">Fasilitas dan Pelayanan</h2>
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <img src="~/images/CheckUp.jpg" class="img-fluid rounded shadow" />
+            </div>
+            <div class="col-md-6">
+                <h4 class="fw-bold">Medical Check Up</h4>
+                <p>Pemeriksaan kesehatan rutin untuk mendeteksi masalah kesehatan sejak dini. Dilakukan oleh tenaga profesional bersertifikat.</p>
+                <a href="#" class="btn btn-success rounded-pill px-4">Learn More</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Doctor Consultation Banner -->
+<div class="container-fluid bg-info text-white py-5 mt-5">
+    <div class="container text-center">
+        <h2 class="fw-bold">Konsultasi Dokter Online 24/7</h2>
+        <p>Konsultasi dengan dokter berlisensi kapan saja, di mana saja</p>
+        <img src="~/images/DoctorTeam.jpeg" class="img-fluid" alt="Doctor Team" style="max-height: 250px;" />
+    </div>
+</div>
+
+<!-- Testimonial Section -->
+<div class="container py-5">
+    <h2 class="text-center fw-bold mb-5">Testimoni Pasien</h2>
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="p-4 border rounded shadow-sm">
+                <p>"Pelayanan sangat ramah dan cepat. Dokternya profesional banget!"</p>
+                <strong>- Michael</strong>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="p-4 border rounded shadow-sm">
+                <p>"Fasilitasnya lengkap, dan proses reservasi sangat mudah!"</p>
+                <strong>- Sarah</strong>
+            </div>
+        </div>
+    </div>
 </div>
