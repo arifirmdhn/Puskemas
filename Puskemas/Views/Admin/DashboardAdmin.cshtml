@@ -1,0 +1,116 @@
+﻿@model DashboardAdminModel
+@{
+    ViewData["Title"] = "Dashboard";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container-fluid py-4">
+    <h1 class="h4 fw-bold text-dark mb-4">Dashboard Admin</h1>
+
+    <div class="row g-4">
+        <div class="col-6 col-md-3">
+            <div class="card shadow-sm border-0 rounded-4 p-3 text-center">
+                <div class="mb-2"><i class="bi bi-people-fill fs-2 text-primary"></i></div>
+                <h2 class="h4 fw-bold text-primary">@Model.JumlahPasien</h2>
+                <p class="text-muted mb-0">Jumlah Pasien</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card shadow-sm border-0 rounded-4 p-3 text-center">
+                <div class="mb-2"><i class="bi bi-person-badge fs-2 text-success"></i></div>
+                <h2 class="h4 fw-bold text-success">@Model.JumlahDokter</h2>
+                <p class="text-muted mb-0">Jumlah Dokter</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card shadow-sm border-0 rounded-4 p-3 text-center">
+                <div class="mb-2"><i class="bi bi-journal-text fs-2 text-warning"></i></div>
+                <h2 class="h4 fw-bold text-warning">@Model.JumlahRekamMedis</h2>
+                <p class="text-muted mb-0">Jumlah Rekam Medis</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="card shadow-sm border-0 rounded-4 p-3 text-center bg-danger text-white">
+                <div class="mb-2"><i class="bi bi-calendar-check fs-2"></i></div>
+                <h2 class="h4 fw-bold">@Model.JumlahReservasi</h2>
+                <p class="mb-0">Jumlah Reservasi</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mt-4">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 rounded-4 p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0">Data Reservasi Terbaru</h5>
+                    <a asp-controller="Reservasis" asp-action="Index" class="btn btn-sm btn-success rounded-3">Lihat Semua</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th>Nama Pasien</th>
+                                <th>Jadwal</th>
+                                <th>Dokter</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var reservasi in Model.ReservasiTerbaru)
+                            {
+                                <tr>
+                                    <td>@reservasi.Pasien?.Nama</td>
+                                    <td>@reservasi.Jadwal?.Tanggal.ToString("dd-MM-yyyy")</td>
+                                    <td>@reservasi.Jadwal?.Dokter?.Nama</td>
+                                    <td>
+                                        @{
+                                            var statusClass = reservasi.StatusReservasi switch
+                                            {
+                                                "Selesai" => "success",
+                                                "Menunggu" => "warning text-dark",
+                                                "Dibatalkan" => "danger",
+                                                _ => "secondary"
+                                            };
+                                        }
+                                        <span class="badge bg-@statusClass">@reservasi.StatusReservasi</span>
+                                    </td>
+                                </tr>
+                            }
+                            @if (!Model.ReservasiTerbaru.Any())
+                            {
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted">Tidak ada data reservasi terbaru.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow-sm border-0 rounded-4 p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="fw-bold mb-0">Pasien Baru</h5>
+                    <a asp-controller="Pasiens" asp-action="Index" class="btn btn-sm btn-success rounded-3">Lihat Semua</a>
+                </div>
+                <div class="list-group list-group-flush">
+                    @foreach (var pasien in Model.PasienBaru)
+                    {
+                        <a href="#" class="list-group-item d-flex align-items-center">
+                            <img src="https://ui-avatars.com/api/?name=@Uri.EscapeDataString(pasien.Nama)&background=0D8ABC&color=fff" class="rounded-circle me-3" alt="@pasien.Nama" style="width:40px; height:40px;">
+                            <div>
+                                <h6 class="mb-0 fw-semibold">@pasien.Nama</h6>
+                                <small class="text-muted">Daftar: @pasien.TanggalTerdaftar.ToString("dd-MM-yyyy")</small>
+                            </div>
+                        </a>
+                    }
+                    @if (!Model.PasienBaru.Any())
+                    {
+                        <div class="text-center text-muted py-3">Tidak ada pasien baru.</div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
