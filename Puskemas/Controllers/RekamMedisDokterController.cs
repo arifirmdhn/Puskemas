@@ -9,23 +9,24 @@ using System.Threading.Tasks;
 
 namespace Puskemas.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    public class PasiensController : Controller
+    [Authorize(Roles = "Dokter")]
+    public class RekamMedisDokterController : Controller
     {
         private readonly AppDbContext _context;
 
-        public PasiensController(AppDbContext context)
+        public RekamMedisDokterController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: Pasiens
+        // GET: RekamMedisDokter
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Pasiens.ToListAsync());
+            var appDbContext = _context.RekamMedis.Include(r => r.Pasien);
+            return View(await appDbContext.ToListAsync());
         }
 
-        // GET: Pasiens/Details/5
+        // GET: RekamMedisDokter/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +34,42 @@ namespace Puskemas.Controllers
                 return NotFound();
             }
 
-            var pasien = await _context.Pasiens
-                .FirstOrDefaultAsync(m => m.IdPasien == id);
-            if (pasien == null)
+            var rekamMedis = await _context.RekamMedis
+                .Include(r => r.Pasien)
+                .FirstOrDefaultAsync(m => m.IdRekam == id);
+            if (rekamMedis == null)
             {
                 return NotFound();
             }
 
-            return View(pasien);
+            return View(rekamMedis);
         }
 
-        // GET: Pasiens/Create
+        // GET: RekamMedisDokter/Create
         public IActionResult Create()
         {
+            ViewData["IdPasien"] = new SelectList(_context.Pasiens, "IdPasien", "IdPasien");
             return View();
         }
 
-        // POST: Pasiens/Create
+        // POST: RekamMedisDokter/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nama,Alamat,TanggalLahir,NomorHp,StatusPernikahan,NomorKeluarga,TanggalTerdaftar")] Pasien pasien)
+        public async Task<IActionResult> Create([Bind("IdRekam,IdPasien,TanggalCheckup,Diagnosa,Pengobatan,Obat,Anamnesis,PemeriksaanFisik,Penatalaksanaan")] RekamMedis rekamMedis)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(pasien);
+                _context.Add(rekamMedis);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(pasien);
+            ViewData["IdPasien"] = new SelectList(_context.Pasiens, "IdPasien", "IdPasien", rekamMedis.IdPasien);
+            return View(rekamMedis);
         }
 
-        // GET: Pasiens/Edit/5
+        // GET: RekamMedisDokter/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +77,23 @@ namespace Puskemas.Controllers
                 return NotFound();
             }
 
-            var pasien = await _context.Pasiens.FindAsync(id);
-            if (pasien == null)
+            var rekamMedis = await _context.RekamMedis.FindAsync(id);
+            if (rekamMedis == null)
             {
                 return NotFound();
             }
-            return View(pasien);
+            ViewData["IdPasien"] = new SelectList(_context.Pasiens, "IdPasien", "IdPasien", rekamMedis.IdPasien);
+            return View(rekamMedis);
         }
 
-        // POST: Pasiens/Edit/5
+        // POST: RekamMedisDokter/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdPasien,Nama,Alamat,TanggalLahir,NomorHp,StatusPernikahan,NomorKeluarga,TanggalTerdaftar")] Pasien pasien)
+        public async Task<IActionResult> Edit(int id, [Bind("IdRekam,IdPasien,TanggalCheckup,Diagnosa,Pengobatan,Obat,Anamnesis,PemeriksaanFisik,Penatalaksanaan")] RekamMedis rekamMedis)
         {
-            if (id != pasien.IdPasien)
+            if (id != rekamMedis.IdRekam)
             {
                 return NotFound();
             }
@@ -97,12 +102,12 @@ namespace Puskemas.Controllers
             {
                 try
                 {
-                    _context.Update(pasien);
+                    _context.Update(rekamMedis);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PasienExists(pasien.IdPasien))
+                    if (!RekamMedisExists(rekamMedis.IdRekam))
                     {
                         return NotFound();
                     }
@@ -113,10 +118,11 @@ namespace Puskemas.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(pasien);
+            ViewData["IdPasien"] = new SelectList(_context.Pasiens, "IdPasien", "IdPasien", rekamMedis.IdPasien);
+            return View(rekamMedis);
         }
 
-        // GET: Pasiens/Delete/5
+        // GET: RekamMedisDokter/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,34 +130,35 @@ namespace Puskemas.Controllers
                 return NotFound();
             }
 
-            var pasien = await _context.Pasiens
-                .FirstOrDefaultAsync(m => m.IdPasien == id);
-            if (pasien == null)
+            var rekamMedis = await _context.RekamMedis
+                .Include(r => r.Pasien)
+                .FirstOrDefaultAsync(m => m.IdRekam == id);
+            if (rekamMedis == null)
             {
                 return NotFound();
             }
 
-            return View(pasien);
+            return View(rekamMedis);
         }
 
-        // POST: Pasiens/Delete/5
+        // POST: RekamMedisDokter/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var pasien = await _context.Pasiens.FindAsync(id);
-            if (pasien != null)
+            var rekamMedis = await _context.RekamMedis.FindAsync(id);
+            if (rekamMedis != null)
             {
-                _context.Pasiens.Remove(pasien);
+                _context.RekamMedis.Remove(rekamMedis);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PasienExists(int id)
+        private bool RekamMedisExists(int id)
         {
-            return _context.Pasiens.Any(e => e.IdPasien == id);
+            return _context.RekamMedis.Any(e => e.IdRekam == id);
         }
     }
 }

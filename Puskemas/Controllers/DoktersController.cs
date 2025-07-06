@@ -1,20 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Puskemas.Models; // Sesuaikan dengan namespace model Dokter kamu
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Puskemas.Controllers
 {
+    [Authorize(Roles = "Admin")] // ⬅️ Optional: batasi hanya admin yang boleh kelola dokter
     public class DoktersController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public DoktersController(AppDbContext context)
+        public DoktersController(AppDbContext context, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _context = context;
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         // GET: Dokters
@@ -26,17 +31,11 @@ namespace Puskemas.Controllers
         // GET: Dokters/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var dokter = await _context.Dokters
                 .FirstOrDefaultAsync(m => m.IdDokter == id);
-            if (dokter == null)
-            {
-                return NotFound();
-            }
+            if (dokter == null) return NotFound();
 
             return View(dokter);
         }
@@ -48,49 +47,71 @@ namespace Puskemas.Controllers
         }
 
         // POST: Dokters/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nama,Email,Password," +
-            "Role,JenisKelamin,Alamat,Spesialis")] Dokter dokter)
+        public async Task<IActionResult> Create([Bind("Nama,Email,Password,Role,JenisKelamin,Alamat,Spesialis")] Dokter dokter)
         {
             if (ModelState.IsValid)
             {
+                // 1. Simpan data dokter ke DB
                 _context.Add(dokter);
                 await _context.SaveChangesAsync();
+
+                // 2. Cek apakah user dengan email ini sudah ada di Identity
+                var existingUser = await _userManager.FindByEmailAsync(dokter.Email);
+                if (existingUser != null)
+                {
+                    ModelState.AddModelError("", "Email ini sudah digunakan.");
+                    return View(dokter);
+                }
+
+                // 3. Buat akun login
+                var user = new IdentityUser
+                {
+                    UserName = dokter.Email,
+                    Email = dokter.Email,
+                    EmailConfirmed = true
+                };
+
+                var result = await _userManager.CreateAsync(user, dokter.Password);
+                if (!result.Succeeded)
+                {
+                    ModelState.AddModelError("", "Gagal membuat akun login: " + string.Join(", ", result.Errors.Select(e => e.Description)));
+                    return View(dokter);
+                }
+
+                // 4. Pastikan role "Dokter" sudah tersedia
+                if (!await _roleManager.RoleExistsAsync("Dokter"))
+                {
+                    await _roleManager.CreateAsync(new IdentityRole("Dokter"));
+                }
+
+                // 5. Tambahkan role ke user
+                await _userManager.AddToRoleAsync(user, "Dokter");
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(dokter);
         }
 
         // GET: Dokters/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var dokter = await _context.Dokters.FindAsync(id);
-            if (dokter == null)
-            {
-                return NotFound();
-            }
+            if (dokter == null) return NotFound();
+
             return View(dokter);
         }
 
         // POST: Dokters/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("IdDokter,Nama,Email,Password,Role,JenisKelamin,Alamat,Spesialis")] Dokter dokter)
         {
-            if (id != dokter.IdDokter)
-            {
-                return NotFound();
-            }
+            if (id != dokter.IdDokter) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -112,23 +133,18 @@ namespace Puskemas.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             return View(dokter);
         }
 
         // GET: Dokters/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
             var dokter = await _context.Dokters
                 .FirstOrDefaultAsync(m => m.IdDokter == id);
-            if (dokter == null)
-            {
-                return NotFound();
-            }
+            if (dokter == null) return NotFound();
 
             return View(dokter);
         }
@@ -142,9 +158,9 @@ namespace Puskemas.Controllers
             if (dokter != null)
             {
                 _context.Dokters.Remove(dokter);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

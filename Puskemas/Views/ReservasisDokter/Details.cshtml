@@ -1,0 +1,41 @@
+﻿@model Reservasi
+
+@{
+    ViewData["Title"] = "Detail Reservasi";
+    Layout = "~/Views/Shared/_LayoutDokter.cshtml";
+}
+
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h2 class="h4 fw-bold text-dark">Detail Reservasi</h2>
+        <a asp-action="Index" class="btn btn-outline-dark rounded-pill px-4">
+            <i class="bi bi-arrow-left"></i> Kembali
+        </a>
+    </div>
+
+    <div class="card shadow border-0 rounded-4 mt-3">
+        <div class="card-body p-4">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <h6 class="fw-semibold text-secondary">Status Reservasi</h6>
+                    <p class="fs-6 mb-0 text-dark">@Model.StatusReservasi</p>
+                    <hr />
+                    <h6 class="fw-semibold text-secondary">Jam Selesai</h6>
+                    <p class="fs-6 mb-0 text-dark">@Model.JamSelesai.ToString(@"hh\:mm")
+                    <hr />
+                    <h6 class="fw-semibold text-secondary">Nomor Antrian</h6>
+                    <p class="fs-6 mb-0 text-dark">@Model.NomorAntrian</p>
+                </div>
+
+                <div class="col-md-6">
+                    <h6 class="fw-semibold text-secondary">Nama Pasien</h6>
+                    <p class="fs-6 mb-0 text-dark">@Model.Pasien?.Nama</p>
+                    <hr />
+                    <h6 class="fw-semibold text-secondary">Tanggal Reservasi</h6>
+                    <p class="fs-6 mb-0 text-dark">@Model.Jadwal?.Tanggal.ToString("dd MMM yyyy")</p>
+                    <hr />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
