@@ -1,0 +1,67 @@
+﻿@model Reservasi
+
+@{
+    ViewData["Title"] = "Hapus Reservasi";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h4 fw-bold text-dark">Hapus Reservasi</h1>
+        <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4 hover-gradient">
+            <i class="bi bi-arrow-left"></i> Kembali
+        </a>
+    </div>
+
+    <div class="card shadow-sm rounded-4">
+        <div class="card-body">
+            <h5 class="fw-bold text-danger mb-4">Apakah Anda yakin ingin menghapus reservasi ini?</h5>
+            <dl class="row mb-0">
+                <dt class="col-sm-3 text-secondary small">Status Reservasi</dt>
+                <dd class="col-sm-9 fw-semibold">@Model.StatusReservasi</dd>
+
+                <dt class="col-sm-3 text-secondary small">Pasien</dt>
+                <dd class="col-sm-9 fw-semibold">@Model.Pasien?.Nama</dd>
+
+                <dt class="col-sm-3 text-secondary small">Jadwal</dt>
+                <dd class="col-sm-9 fw-semibold">
+                    @if (Model.Jadwal != null)
+                    {
+                        <span>@Model.Jadwal.Hari, @Model.Jadwal.Tanggal.ToShortDateString()</span>
+                    }
+                    else
+                    {
+                        <span class="text-muted">-</span>
+                    }
+                </dd>
+
+                <dt class="col-sm-3 text-secondary small">Nomor Antrian</dt>
+                <dd class="col-sm-9 fw-semibold">@Model.NomorAntrian</dd>
+
+                <dt class="col-sm-3 text-secondary small">Jam Selesai</dt>
+                <dd class="col-sm-9 fw-semibold">@Model.JamSelesai.ToString(@"hh\:mm")</dd>
+            </dl>
+        </div>
+
+        <div class="card-footer bg-white text-end py-3">
+            <form asp-action="Delete" class="d-inline">
+                <input type="hidden" asp-for="IdReservasi" />
+                <button type="submit" class="btn text-white px-4 py-2 me-2"
+                        style="background: linear-gradient(90deg, #ef4444, #b91c1c); border-radius: 0.4rem;">
+                    <i class="bi bi-trash"></i> Hapus
+                </button>
+            </form>
+            <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4 hover-gradient">
+                <i class="bi bi-list"></i> Daftar Reservasi
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-gradient:hover {
+        color: white !important;
+        background: linear-gradient(90deg, #3b82f6, #ef4444) !important;
+        border-color: transparent !important;
+    }
+</style>

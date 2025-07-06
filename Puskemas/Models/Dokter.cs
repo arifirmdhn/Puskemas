@@ -14,5 +14,5 @@ public class Dokter
     public string Alamat { get; set; }
     public string Spesialis { get; set; }
 
-    public ICollection<Jadwal> Jadwals { get; set; }
+    public ICollection<Jadwal>? Jadwals { get; set; }
 }

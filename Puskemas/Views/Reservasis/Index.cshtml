@@ -1,0 +1,79 @@
+﻿@model IEnumerable<Reservasi>
+
+@{
+    ViewData["Title"] = "Daftar Reservasi";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h4 fw-bold text-dark">Daftar Reservasi</h1>
+        <a asp-action="Create" class="btn text-white px-4 py-2" style="background: linear-gradient(90deg, #3b82f6, #ef4444); border-radius: 0.4rem;">
+            <i class="bi bi-plus-lg"></i> Tambah Reservasi
+        </a>
+    </div>
+
+    <div class="card shadow-sm rounded-4">
+        <div class="card-header bg-white border-bottom-0 py-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 fw-bold">Data Reservasi</h5>
+                <a asp-action="Create" class="btn btn-dark rounded-pill px-4">
+                    <i class="bi bi-plus-lg me-2"></i> Tambah Reservasi
+                </a>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead style="background: linear-gradient(90deg, #3b82f6, #ef4444); color: white;">
+                        <tr>
+                            <th class="fw-semibold small">Status</th>
+                            <th class="fw-semibold small">Pasien</th>
+                            <th class="fw-semibold small">Jadwal</th>
+                            <th class="fw-semibold small">Nomor Antrian</th>
+                            <th class="fw-semibold small">Jam Selesai</th>
+                            <th class="fw-semibold small text-end">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="border-bottom">
+                                <td>@item.StatusReservasi</td>
+                                <td>@item.Pasien?.Nama ?? "N/A"</td>
+                                <td>
+                                    @if (item.Jadwal != null)
+                                    {
+                                        <span>@item.Jadwal.Tanggal.ToString("dd/MM/yyyy") - @item.Jadwal.Hari</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-muted">N/A</span>
+                                    }
+                                </td>
+                                <td>@item.NomorAntrian</td>
+                                <td>@item.JamSelesai.ToString(@"hh\:mm")</td>
+                                <td class="text-end">
+                                    <div class="btn-group btn-group-sm">
+                                        <a asp-action="Edit" asp-route-id="@item.IdReservasi" class="btn text-warning bg-transparent border-0">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a asp-action="Details" asp-route-id="@item.IdReservasi" class="btn text-primary bg-transparent border-0">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.IdReservasi" class="btn text-danger bg-transparent border-0">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer bg-white text-end small py-3">
+            Menampilkan @Model.Count() Reservasi
+        </div>
+    </div>
+</div>

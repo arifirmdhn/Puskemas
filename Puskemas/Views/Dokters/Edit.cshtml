@@ -1,0 +1,84 @@
+﻿@model Dokter
+
+@{
+    ViewData["Title"] = "Edit Dokter";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center">
+        <h1 class="h4 fw-bold text-dark">Edit Dokter</h1>
+        <a asp-action="Index" class="btn btn-outline-dark rounded-pill px-4">
+            <i class="bi bi-arrow-left"></i> Kembali
+        </a>
+    </div>
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb bg-transparent p-0 m-0">
+            <li class="breadcrumb-item"><a href="/Admin/Dashboard" class="text-decoration-none text-dark fw-semibold">Dashboard Admin</a></li>
+            <li class="breadcrumb-item"><a asp-action="Index" class="text-decoration-none text-dark fw-semibold">Dokter</a></li>
+            <li class="breadcrumb-item active text-secondary fw-semibold" aria-current="page">Edit</li>
+        </ol>
+    </nav>
+
+    <div class="card shadow border-0 rounded-4">
+        <div class="card-body p-4">
+            <form asp-action="Edit" method="post">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                <input type="hidden" asp-for="IdDokter" />
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="Nama" class="form-label fw-semibold">Nama</label>
+                        <input asp-for="Nama" class="form-control rounded-3" placeholder="Masukkan nama lengkap" />
+                        <span asp-validation-for="Nama" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Email" class="form-label fw-semibold">Email</label>
+                        <input asp-for="Email" class="form-control rounded-3" placeholder="contoh@email.com" />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Password" class="form-label fw-semibold">Password</label>
+                        <input asp-for="Password" class="form-control rounded-3" type="text" placeholder="******" />
+                        <span asp-validation-for="Password" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Role" class="form-label fw-semibold">Role</label>
+                        <input asp-for="Role" class="form-control rounded-3" placeholder="Admin / Dokter" />
+                        <span asp-validation-for="Role" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="JenisKelamin" class="form-label fw-semibold">Jenis Kelamin</label>
+                        <input asp-for="JenisKelamin" class="form-control rounded-3" placeholder="Laki-Laki / Perempuan" />
+                        <span asp-validation-for="JenisKelamin" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="Alamat" class="form-label fw-semibold">Alamat</label>
+                        <input asp-for="Alamat" class="form-control rounded-3" placeholder="Alamat lengkap" />
+                        <span asp-validation-for="Alamat" class="text-danger small"></span>
+                    </div>
+                    <div class="col-md-12">
+                        <label asp-for="Spesialis" class="form-label fw-semibold">Spesialis</label>
+                        <input asp-for="Spesialis" class="form-control rounded-3" placeholder="Contoh: Dokter Anak" />
+                        <span asp-validation-for="Spesialis" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-end mt-4">
+                    <button type="submit" class="btn text-white px-4 py-2" style="background: #2e7d32; border-radius: 0.5rem;">
+                        Simpan Perubahan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

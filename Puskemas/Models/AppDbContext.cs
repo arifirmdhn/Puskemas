@@ -24,8 +24,8 @@ public class AppDbContext : DbContext
         // Config Relasi: Jadwal-Reservasi
         modelBuilder.Entity<Reservasi>()
             .HasOne(r => r.Jadwal)
-            .WithOne(j => j.Reservasi)
-            .HasForeignKey<Reservasi>(r => r.IdJadwal)
+            .WithMany(j => j.Reservasis)
+            .HasForeignKey(r => r.IdJadwal)
             .OnDelete(DeleteBehavior.Restrict);
 
         // Config Relasi: Dokter-Jadwal

@@ -13,6 +13,6 @@ public class Jadwal
     public DateTime Tanggal { get; set; }
     public string StatusJadwal { get; set; }
 
-    public Dokter Dokter { get; set; }
-    public Reservasi Reservasi { get; set; }
+    public Dokter? Dokter { get; set; }
+    public ICollection<Reservasi>? Reservasis { get; set; }
 }
