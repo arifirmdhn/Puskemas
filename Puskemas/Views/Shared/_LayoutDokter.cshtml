@@ -1,0 +1,168 @@
+﻿
+@{
+    Layout = null;
+    var currentController = ViewContext.RouteData.Values["Controller"]?.ToString();
+}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - Dokter Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: #212529;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1030;
+            padding: 1rem;
+        }
+
+        .sidebar .nav-link {
+            color: white;
+            border-radius: 0.5rem;
+            margin-bottom: 0.5rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .sidebar .nav-link:hover {
+            background-color: #495057;
+        }
+
+        .sidebar .nav-link.active {
+            background: white;
+            color: #212529 !important;
+        }
+
+        .sidebar .bi {
+            margin-right: 8px;
+        }
+
+        .offcanvas .nav-link.active {
+            background-color: white;
+            color: #212529 !important;
+        }
+
+        .offcanvas .nav-link:hover,
+        .offcanvas .nav-link:focus,
+        .offcanvas .nav-link:active {
+            background-color: #495057;
+            color: white;
+        }
+
+        #main-container {
+            margin-left: 0;
+            padding: 1rem;
+            margin-top: 56px; /* tinggi navbar mobile */
+        }
+
+        @@media (min-width: 768px) {
+            #main-container {
+                margin-left: 250px; /* sidebar width */
+                margin-top: 80px; /* sesuai tinggi header fixed di desktop */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar untuk mobile -->
+    <nav class="navbar navbar-dark bg-dark fixed-top d-md-none">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <span class="navbar-brand ms-2">Dokter Puskesmas</span>
+        </div>
+    </nav>
+
+    <!-- Sidebar statis di desktop -->
+    <div class="sidebar d-none d-md-flex flex-column">
+        <div class="d-flex align-items-center mb-4 text-white">
+            <i class="bi bi-hospital fs-4 me-2"></i>
+            <span class="fs-4 fw-bold">Dokter Puskesmas</span>
+        </div>
+        <hr class="border-secondary" />
+        <ul class="nav flex-column">
+            <li>
+                <a asp-controller="PasiensDokter" asp-action="Index" class="nav-link @(currentController == "PasiensDokter" ? "active" : "")">
+                    <i class="bi bi-people"></i> Pasien
+                </a>
+            </li>
+            <li>
+                <a asp-controller="RekamMedisDokter" asp-action="Index" class="nav-link @(currentController == "RekamMedisDokter" ? "active" : "")">
+                    <i class="bi bi-journal-text"></i> Rekam Medis
+                </a>
+            </li>
+            <li>
+                <a asp-controller="ReservasisDokter" asp-action="Index" class="nav-link @(currentController == "ReservasisDokter" ? "active" : "")">
+                    <i class="bi bi-calendar-check"></i> Reservasi
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Sidebar offcanvas untuk mobile -->
+    <div class="offcanvas offcanvas-start text-bg-dark p-3 d-md-none" tabindex="-1" id="sidebarOffcanvas" aria-labelledby="sidebarOffcanvasLabel">
+        <div class="d-flex align-items-center mb-4">
+            <i class="bi bi-hospital fs-4 me-2"></i>
+            <span class="fs-4 fw-bold" id="sidebarOffcanvasLabel">Dokter Panel</span>
+            <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <hr class="border-secondary" />
+        <ul class="nav flex-column">
+            <li class="mb-2">
+                <a asp-controller="PasiensDokter" asp-action="Index" class="nav-link text-white @(currentController == "PasiensDokter" ? "active" : "")">
+                    <i class="bi bi-people me-2"></i> Data Pasien
+                </a>
+            </li>
+            <li class="mb-2">
+                <a asp-controller="RekamMedisDokter" asp-action="Index" class="nav-link text-white @(currentController == "RekamMedisDokter" ? "active" : "")">
+                    <i class="bi bi-journal-text me-2"></i> Rekam Medis
+                </a>
+            </li>
+            <li class="mb-2">
+                <a asp-controller="ReservasisDokter" asp-action="Index" class="nav-link text-white @(currentController == "ReservasisDokter" ? "active" : "")">
+                    <i class="bi bi-calendar-check me-2"></i> Reservasi
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Header Topbar untuk Desktop & Tablet -->
+    <header class="d-none d-md-flex justify-content-between align-items-center bg-white border-bottom py-3 shadow-sm"
+            style="position:fixed; top:0; left:0; right:0; height:80px; z-index:1020; padding-left:250px; padding-right:1rem;">
+        <h5 class="mb-0 fw-bold text-dark" style="padding-left:2rem;">@ViewData["Title"]</h5>
+        <div class="d-flex align-items-center gap-3">
+            <div class="text-end me-2">
+                <div class="fw-semibold text-dark">Dr. Ahmad</div>
+                <div class="text-muted small">Dokter</div>
+            </div>
+            <img src="https://ui-avatars.com/api/?name=Ahmad&background=0D8ABC&color=fff" alt="Profile" class="rounded-circle" style="width:40px; height:40px; object-fit:cover;">
+            <a asp-page="/Account/Logout" asp-area="Identity" class="btn btn-outline-danger btn-sm rounded-3 ms-2">
+                <i class="bi bi-box-arrow-right"></i> Logout
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="main-container">
+        @RenderBody()
+    </main>
+
+    @RenderSection("Scripts", required: false)
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

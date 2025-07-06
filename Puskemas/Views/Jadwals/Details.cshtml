@@ -1,0 +1,71 @@
+﻿@model Jadwal
+
+@{
+    ViewData["Title"] = "Detail Jadwal";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center">
+        <h1 class="h4 fw-bold text-dark">Detail Jadwal</h1>
+        <a asp-action="Index" class="btn btn-outline-dark rounded-pill px-4">
+            <i class="bi bi-arrow-left"></i> Kembali
+        </a>
+    </div>
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb bg-transparent p-0 m-0">
+            <li class="breadcrumb-item"><a href="/Admin/Dashboard" class="text-decoration-none text-dark fw-semibold">Dashboard Admin</a></li>
+            <li class="breadcrumb-item"><a asp-action="Index" class="text-decoration-none text-dark fw-semibold">Jadwal</a></li>
+            <li class="breadcrumb-item active text-secondary fw-semibold" aria-current="page">Detail</li>
+        </ol>
+    </nav>
+
+    <div class="card shadow border-0 rounded-4">
+        <div class="card-header bg-white border-bottom-0 pt-4">
+            <h5 class="mb-0 fw-bold">Informasi Jadwal</h5>
+        </div>
+        <div class="card-body p-4">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h6 class="fw-semibold text-secondary">Hari</h6>
+                        <p class="fs-6 mb-0 text-dark">@Model.Hari</p>
+                    </div>
+                    <hr class="my-3" />
+                    <div class="mb-3">
+                        <h6 class="fw-semibold text-secondary">Jam Mulai</h6>
+                        <p class="fs-6 mb-0 text-dark">@Model.JamMulai.ToString("hh\\:mm")</p>
+                    </div>
+                    <hr class="my-3" />
+                    <div class="mb-3">
+                        <h6 class="fw-semibold text-secondary">Jam Selesai</h6>
+                        <p class="fs-6 mb-0 text-dark">@Model.JamSelesai.ToString("hh\\:mm")</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h6 class="fw-semibold text-secondary">Tanggal</h6>
+                        <p class="fs-6 mb-0 text-dark">@Model.Tanggal.ToString("dddd, dd MMMM yyyy")</p>
+                    </div>
+                    <hr class="my-3" />
+                    <div class="mb-3">
+                        <h6 class="fw-semibold text-secondary">Status Jadwal</h6>
+                        <span class="badge text-bg-primary rounded-pill px-3 py-2 fs-6">@Model.StatusJadwal</span>
+                    </div>
+                    <hr class="my-3" />
+                    <div class="mb-3">
+                        <h6 class="fw-semibold text-secondary">Nama Dokter</h6>
+                        <p class="fs-6 mb-0 text-dark">@Model.Dokter?.Nama</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-white d-flex justify-content-end gap-2 border-top-0 pb-4">
+            <a asp-action="Edit" asp-route-id="@Model?.IdJadwal" class="btn btn-warning text-white rounded-pill px-4">
+                Edit
+            </a>
+        </div>
+    </div>
+</div>

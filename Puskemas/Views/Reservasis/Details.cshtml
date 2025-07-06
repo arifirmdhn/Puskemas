@@ -1,0 +1,82 @@
+﻿@model Reservasi
+
+@{
+    ViewData["Title"] = "Detail Reservasi";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center">
+        <h1 class="h4 fw-bold text-dark">Detail Reservasi</h1>
+        <a asp-action="Index" class="btn btn-outline-dark rounded-pill px-4">
+            <i class="bi bi-arrow-left"></i> Kembali
+        </a>
+    </div>
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb bg-transparent p-0 m-0">
+            <li class="breadcrumb-item">
+                <a href="/Admin/Dashboard" class="text-decoration-none text-dark fw-semibold">Dashboard Admin</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a asp-action="Index" class="text-decoration-none text-dark fw-semibold">Reservasi</a>
+            </li>
+            <li class="breadcrumb-item active text-secondary fw-semibold" aria-current="page">Detail</li>
+        </ol>
+    </nav>
+
+    <div class="card shadow border-0 rounded-4">
+        <div class="card-header bg-white border-bottom-0 pt-4">
+            <h5 class="mb-0 fw-bold">Informasi Reservasi</h5>
+        </div>
+        <div class="card-body p-4">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h6 class="fw-semibold text-secondary">Status Reservasi</h6>
+                        <p class="fs-6 mb-0 text-dark">@Model.StatusReservasi</p>
+                    </div>
+                    <hr class="my-3" />
+
+                    <div class="mb-3">
+                        <h6 class="fw-semibold text-secondary">Pasien</h6>
+                        <p class="fs-6 mb-0 text-dark">@Model.Pasien?.Nama</p>
+                    </div>
+                    <hr class="my-3" />
+
+                    <div class="mb-3">
+                        <h6 class="fw-semibold text-secondary">Nomor Antrian</h6>
+                        <p class="fs-6 mb-0 text-dark">@Model.NomorAntrian</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h6 class="fw-semibold text-secondary">Jadwal</h6>
+                        @if (Model.Jadwal != null)
+                        {
+                            <p class="fs-6 mb-0 text-dark">
+                                @Model.Jadwal.Hari, @Model.Jadwal.Tanggal.ToString("dd/MM/yyyy")
+                            </p>
+                        }
+                        else
+                        {
+                            <p class="fs-6 mb-0 text-muted">-</p>
+                        }
+                    </div>
+                    <hr class="my-3" />
+
+                    <div class="mb-0">
+                        <h6 class="fw-semibold text-secondary">Jam Selesai</h6>
+                        <p class="fs-6 mb-0 text-dark">@Model.JamSelesai.ToString(@"hh\:mm")</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-white d-flex justify-content-end gap-2 border-top-0 pb-4">
+            <a asp-action="Edit" asp-route-id="@Model?.IdReservasi" class="btn btn-warning text-white rounded-pill px-4">
+                Edit
+            </a>
+        </div>
+    </div>
+</div>

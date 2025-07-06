@@ -1,0 +1,76 @@
+﻿@model Dokter
+
+@{
+    ViewData["Title"] = "Detail Dokter";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center">
+        <h1 class="h4 fw-bold text-dark">Detail Dokter</h1>
+        <a asp-action="Index" class="btn btn-outline-dark rounded-pill px-4">
+            <i class="bi bi-arrow-left"></i> Kembali
+        </a>
+    </div>
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb bg-transparent p-0 m-0">
+            <li class="breadcrumb-item"><a href="/Admin/Dashboard" class="text-decoration-none text-dark fw-semibold">Dashboard Admin</a></li>
+            <li class="breadcrumb-item"><a asp-action="Index" class="text-decoration-none text-dark fw-semibold">Dokter</a></li>
+            <li class="breadcrumb-item active text-secondary fw-semibold" aria-current="page">Detail</li>
+        </ol>
+    </nav>
+
+    <div class="card shadow border-0 rounded-4">
+        <div class="card-header bg-white border-bottom-0 pt-4">
+            <h5 class="mb-0 fw-bold">Informasi Dokter</h5>
+        </div>
+        <div class="card-body p-4">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h6 class="fw-semibold text-secondary">Nama</h6>
+                        <p class="fs-6 mb-0 text-dark">@Model.Nama</p>
+                    </div>
+                    <hr class="my-3" />
+                    <div class="mb-3">
+                        <h6 class="fw-semibold text-secondary">Email</h6>
+                        <p class="fs-6 mb-0 text-dark">@Model.Email</p>
+                    </div>
+                    <hr class="my-3" />
+                    <div class="mb-3">
+                        <h6 class="fw-semibold text-secondary">Password</h6>
+                        <p class="fs-6 mb-0 text-dark">@Model.Password</p>
+                    </div>
+                    <hr class="my-3" />
+                    <div class="mb-3">
+                        <h6 class="fw-semibold text-secondary">Role</h6>
+                        <span class="badge text-bg-primary rounded-pill px-3 py-2 fs-6">@Model.Role</span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h6 class="fw-semibold text-secondary">Jenis Kelamin</h6>
+                        <p class="fs-6 mb-0 text-dark">@Model.JenisKelamin</p>
+                    </div>
+                    <hr class="my-3" />
+                    <div class="mb-3">
+                        <h6 class="fw-semibold text-secondary">Alamat</h6>
+                        <p class="fs-6 mb-0 text-dark">@Model.Alamat</p>
+                    </div>
+                    <hr class="my-3" />
+                    <div class="mb-0">
+                        <h6 class="fw-semibold text-secondary">Spesialis</h6>
+                        <p class="fs-6 mb-0 text-dark">@Model.Spesialis</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-white d-flex justify-content-end gap-2 border-top-0 pb-4">
+            <a asp-action="Edit" asp-route-id="@Model?.IdDokter" class="btn btn-warning text-white rounded-pill px-4">
+                Edit
+            </a>
+        </div>
+    </div>
+</div>

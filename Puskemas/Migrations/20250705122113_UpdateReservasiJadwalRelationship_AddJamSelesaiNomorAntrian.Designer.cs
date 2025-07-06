@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Puskemas.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250705122113_UpdateReservasiJadwalRelationship_AddJamSelesaiNomorAntrian")]
+    partial class UpdateReservasiJadwalRelationship_AddJamSelesaiNomorAntrian
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -117,20 +120,8 @@ namespace Puskemas.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NomorKeluarga")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StatusPernikahan")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("TanggalLahir")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("TanggalTerdaftar")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("IdPasien");
 
@@ -145,10 +136,6 @@ namespace Puskemas.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("IdRekam"));
 
-                    b.Property<string>("Anamnesis")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Diagnosa")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -157,14 +144,6 @@ namespace Puskemas.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Obat")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PemeriksaanFisik")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Penatalaksanaan")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
