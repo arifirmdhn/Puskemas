@@ -1,0 +1,108 @@
+﻿@model ServiceDataViewModel
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+
+<div class="container py-5">
+
+    <h2 class="fw-bold text-center mb-5">Dashboard Pasien</h2>
+
+    <!-- ======================= Data Reservasi ======================= -->
+    <div class="card shadow mb-5 border-start border-4 border-primary">
+        <div class="card-header bg-primary text-white d-flex align-items-center">
+            <i class="bi bi-calendar-check me-2 fs-4"></i>
+            <h5 class="mb-0">Data Reservasi</h5>
+        </div>
+        <div class="card-body table-responsive">
+            <table class="table table-hover align-middle text-center">
+                <thead class="table-primary">
+                    <tr>
+                        <th>Pasien</th>
+                        <th>Hari & Tanggal</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.ReservasiList)
+                    {
+                        <tr>
+                            <td>@item.Pasien?.Nama</td>
+                            <td>@item.Jadwal?.Hari, @item.Jadwal?.Tanggal.ToShortDateString()</td>
+                            <td>
+                                <span class="badge bg-success">@item.StatusReservasi</span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ======================= Rekam Medis ======================= -->
+    <div class="card shadow mb-5 border-start border-4 border-danger">
+        <div class="card-header bg-danger text-white d-flex align-items-center">
+            <i class="bi bi-journal-medical me-2 fs-4"></i>
+            <h5 class="mb-0">Rekam Medis</h5>
+        </div>
+        <div class="card-body table-responsive">
+            <table class="table table-hover align-middle text-center">
+                <thead class="table-danger">
+                    <tr>
+                        <th>Pasien</th>
+                        <th>Tanggal</th>
+                        <th>Diagnosa</th>
+                        <th>Pengobatan</th>
+                        <th>Obat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.RekamMedisList)
+                    {
+                        <tr>
+                            <td>@item.Pasien?.Nama</td>
+                            <td>@item.TanggalCheckup.ToShortDateString()</td>
+                            <td>@item.Diagnosa</td>
+                            <td>@item.Pengobatan</td>
+                            <td>@item.Obat</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ======================= Jadwal Dokter ======================= -->
+    <div class="card shadow border-start border-4 border-info">
+        <div class="card-header bg-info text-white d-flex align-items-center">
+            <i class="bi bi-clock-history me-2 fs-4"></i>
+            <h5 class="mb-0">Jadwal Dokter</h5>
+        </div>
+        <div class="card-body table-responsive">
+            <table class="table table-hover align-middle text-center">
+                <thead class="table-info">
+                    <tr>
+                        <th>Dokter</th>
+                        <th>Hari</th>
+                        <th>Tanggal</th>
+                        <th>Jam</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.JadwalList)
+                    {
+                        <tr>
+                            <td>@item.Dokter?.Nama</td>
+                            <td>@item.Hari</td>
+                            <td>@item.Tanggal.ToShortDateString()</td>
+                            <td>@item.JamMulai - @item.JamSelesai</td>
+                            <td>
+                                <span class="badge bg-warning text-dark">@item.StatusJadwal</span>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
