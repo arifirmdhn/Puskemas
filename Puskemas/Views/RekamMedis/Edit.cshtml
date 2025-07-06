@@ -37,44 +37,50 @@
 
                     <div class="col-md-6">
                         <label asp-for="TanggalCheckup" class="form-label fw-semibold">Tanggal Checkup</label>
-                        <input asp-for="TanggalCheckup" type="date" class="form-control rounded-3" />
+                        <input asp-for="TanggalCheckup" type="date" disabled class="form-control rounded-3"/>
                         <span asp-validation-for="TanggalCheckup" class="text-danger small"></span>
                     </div>
 
                     <div class="col-md-6">
                         <label asp-for="Diagnosa" class="form-label fw-semibold">Diagnosa</label>
-                        <input asp-for="Diagnosa" class="form-control rounded-3" placeholder="Perbarui diagnosa" />
+                        <input asp-for="Diagnosa" class="form-control rounded-3" placeholder="Masukkan diagnosa" />
                         <span asp-validation-for="Diagnosa" class="text-danger small"></span>
                     </div>
 
                     <div class="col-md-6">
+                        <label asp-for="Penatalaksanaan" class="form-label fw-semibold">Penatalaksanaan</label>
+                        <select asp-for="Penatalaksanaan" class="form-select rounded-3">
+                            <option value="">-- Pilih Penatalaksanaan --</option>
+                            <option value="Rawat Inap">Rawat Inap</option>
+                            <option value="Rehabilitasi">Rehabilitasi</option>
+                            <option value="Isolasi">Isolasi</option>
+                            <option value="Dipulangkan">Dipulangkan</option>
+                        </select>
+                        <span asp-validation-for="Penatalaksanaan" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
                         <label asp-for="Pengobatan" class="form-label fw-semibold">Pengobatan</label>
-                        <input asp-for="Pengobatan" class="form-control rounded-3" placeholder="Perbarui pengobatan" />
+                        <textarea asp-for="Pengobatan" class="form-control rounded-3" rows="3" placeholder="Terapi / Tindakan"></textarea>
                         <span asp-validation-for="Pengobatan" class="text-danger small"></span>
                     </div>
 
                     <div class="col-md-6">
                         <label asp-for="Obat" class="form-label fw-semibold">Obat</label>
-                        <input asp-for="Obat" class="form-control rounded-3" placeholder="Perbarui obat" />
+                        <textarea asp-for="Obat" class="form-control rounded-3" rows="3" placeholder="Obat yang diberikan"></textarea>
                         <span asp-validation-for="Obat" class="text-danger small"></span>
                     </div>
 
                     <div class="col-md-6">
                         <label asp-for="Anamnesis" class="form-label fw-semibold">Anamnesis</label>
-                        <input asp-for="Anamnesis" class="form-control rounded-3" placeholder="Perbarui anamnesis" />
+                        <textarea asp-for="Anamnesis" class="form-control rounded-3" rows="3" placeholder="Keluhan pasien"></textarea>
                         <span asp-validation-for="Anamnesis" class="text-danger small"></span>
                     </div>
 
                     <div class="col-md-6">
                         <label asp-for="PemeriksaanFisik" class="form-label fw-semibold">Pemeriksaan Fisik</label>
-                        <input asp-for="PemeriksaanFisik" class="form-control rounded-3" placeholder="Perbarui pemeriksaan fisik" />
+                        <textarea asp-for="PemeriksaanFisik" class="form-control rounded-3" rows="3" placeholder="Hasil pemeriksaan"></textarea>
                         <span asp-validation-for="PemeriksaanFisik" class="text-danger small"></span>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label asp-for="Penatalaksanaan" class="form-label fw-semibold">Penatalaksanaan</label>
-                        <input asp-for="Penatalaksanaan" class="form-control rounded-3" placeholder="Perbarui penatalaksanaan" />
-                        <span asp-validation-for="Penatalaksanaan" class="text-danger small"></span>
                     </div>
                 </div>
 

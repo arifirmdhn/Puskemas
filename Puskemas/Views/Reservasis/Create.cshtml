@@ -1,55 +1,62 @@
 ﻿@model Reservasi
 
 @{
-    ViewData["Title"] = "Edit Reservasi";
+    ViewData["Title"] = "Tambah Reservasi";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center">
-        <h1 class="h4 fw-bold text-dark mb-0">Edit Reservasi</h1>
+        <h1 class="h4 fw-bold text-dark mb-0">Tambah Reservasi</h1>
         <a asp-action="Index" class="btn btn-outline-dark rounded-pill px-4">
             <i class="bi bi-arrow-left"></i> Kembali
         </a>
     </div>
+
     <nav aria-label="breadcrumb" class="mb-3">
         <ol class="breadcrumb bg-transparent p-0 m-0">
             <li class="breadcrumb-item"><a href="/Admin/Dashboard" class="text-decoration-none text-dark fw-semibold">Dashboard Admin</a></li>
             <li class="breadcrumb-item"><a asp-action="Index" class="text-decoration-none text-dark fw-semibold">Reservasi</a></li>
-            <li class="breadcrumb-item active text-secondary fw-semibold" aria-current="page">Edit</li>
+            <li class="breadcrumb-item active text-secondary fw-semibold" aria-current="page">Tambah</li>
         </ol>
     </nav>
 
     <div class="card shadow border-0 rounded-4">
         <div class="card-body p-4">
-            <form asp-action="Edit" method="post">
+            <form asp-action="Create" method="post">
                 @Html.AntiForgeryToken()
                 <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
-                <input type="hidden" asp-for="IdReservasi" />
 
                 <div class="row g-4">
                     <div class="col-md-6">
-                        <label asp-for="IdPasien" class="form-label fw-semibold text-dark"></label>
-                        <select asp-for="IdPasien" class="form-select rounded-3" asp-items="ViewBag.IdPasien"></select>
+                        <label class="form-label fw-semibold text-dark">Pasien</label>
+                        <select asp-for="IdPasien" class="form-select rounded-3" asp-items="ViewBag.IdPasien">
+                            <option value="">-- Pilih Pasien --</option>
+                        </select>
                         <span asp-validation-for="IdPasien" class="text-danger small"></span>
                     </div>
 
                     <div class="col-md-6">
-                        <label asp-for="IdJadwal" class="form-label fw-semibold text-dark"></label>
-                        <select asp-for="IdJadwal" class="form-select rounded-3" asp-items="ViewBag.IdJadwal"></select>
+                        <label class="form-label fw-semibold text-dark">Jadwal</label>
+                        <select asp-for="IdJadwal" class="form-select rounded-3" asp-items="ViewBag.IdJadwal">
+                            <option value="">-- Pilih Tanggal Jadwal --</option>
+                        </select>
                         <span asp-validation-for="IdJadwal" class="text-danger small"></span>
                     </div>
 
                     <div class="col-md-6">
-                        <label asp-for="StatusReservasi" class="form-label fw-semibold text-dark"></label>
-                        <input asp-for="StatusReservasi" class="form-control rounded-3" placeholder="Contoh: Pending / Selesai" />
+                        <label class="form-label fw-semibold text-dark">Status Reservasi</label>
+                        <select asp-for="StatusReservasi" class="form-select rounded-3">
+                            <option value="">-- Pilih Status --</option>
+                            <option value="Booking">Booking</option>
+                            <option value="Selesai">Selesai</option>
+                        </select>
                         <span asp-validation-for="StatusReservasi" class="text-danger small"></span>
                     </div>
 
                     <div class="col-md-6">
-                        <label asp-for="NomorAntrian" class="form-label fw-semibold text-dark"></label>
-                        <input asp-for="NomorAntrian" class="form-control rounded-3" type="number" min="1" />
-                        <span asp-validation-for="NomorAntrian" class="text-danger small"></span>
+                        <label class="form-label fw-semibold text-dark">Nomor Antrian</label>
+                        <input name="NomorAntrian" value="@ViewBag.NomorAntrian" class="form-control rounded-3" readonly />
                     </div>
 
                     <div class="col-md-6">

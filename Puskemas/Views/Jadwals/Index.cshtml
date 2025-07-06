@@ -33,10 +33,10 @@
                     <thead class="table-dark">
                         <tr>
                             <th>@Html.DisplayNameFor(model => model.Hari)</th>
-                            <th>@Html.DisplayNameFor(model => model.JamMulai)</th>
-                            <th>@Html.DisplayNameFor(model => model.JamSelesai)</th>
-                            <th>@Html.DisplayNameFor(model => model.Tanggal)</th>
-                            <th>@Html.DisplayNameFor(model => model.StatusJadwal)</th>
+                            <th>Jam Mulai</th>
+                            <th>Jam Selesai</th>
+                            <th>Tanggal</th>
+                            <th>Status Jadwal</th>
                             <th>Nama Dokter</th>
                             <th class="text-center">Aksi</th>
                         </tr>
@@ -48,7 +48,7 @@
                                 <td>@Html.DisplayFor(modelItem => item.Hari)</td>
                                 <td>@Html.DisplayFor(modelItem => item.JamMulai)</td>
                                 <td>@Html.DisplayFor(modelItem => item.JamSelesai)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Tanggal)</td>
+                                <td>@item.Tanggal.ToString("dd-MM-yyyy")</td>
                                 <td>@Html.DisplayFor(modelItem => item.StatusJadwal)</td>
                                 <td>@item.Dokter?.Nama</td>
                                 <td class="text-center">

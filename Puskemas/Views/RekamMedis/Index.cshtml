@@ -34,10 +34,7 @@
                         <tr>
                             <th>@Html.DisplayNameFor(model => model.TanggalCheckup)</th>
                             <th>@Html.DisplayNameFor(model => model.Diagnosa)</th>
-                            <th>@Html.DisplayNameFor(model => model.Pengobatan)</th>
-                            <th>@Html.DisplayNameFor(model => model.Obat)</th>
                             <th>@Html.DisplayNameFor(model => model.Anamnesis)</th>
-                            <th>@Html.DisplayNameFor(model => model.PemeriksaanFisik)</th>
                             <th>@Html.DisplayNameFor(model => model.Penatalaksanaan)</th>
                             <th>Pasien</th>
                             <th class="text-center">Aksi</th>
@@ -49,12 +46,9 @@
                             <tr>
                                 <td>@item.TanggalCheckup.ToString("dd/MM/yyyy")</td>
                                 <td>@Html.DisplayFor(m => item.Diagnosa)</td>
-                                <td>@Html.DisplayFor(m => item.Pengobatan)</td>
-                                <td>@Html.DisplayFor(m => item.Obat)</td>
                                 <td>@Html.DisplayFor(m => item.Anamnesis)</td>
-                                <td>@Html.DisplayFor(m => item.PemeriksaanFisik)</td>
                                 <td>@Html.DisplayFor(m => item.Penatalaksanaan)</td>
-                                <td>@item.Pasien?.Nama ?? "Tidak Ada"</td>
+                                <td>@item.Pasien?.Nama</td>
                                 <td class="text-center">
                                     <div class="btn-group btn-group-sm">
                                         <a asp-action="Edit" asp-route-id="@item.IdRekam" class="btn btn-warning text-white">

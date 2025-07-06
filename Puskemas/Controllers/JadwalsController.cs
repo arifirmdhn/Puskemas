@@ -46,7 +46,7 @@ namespace Puskemas.Controllers
         // GET: Jadwals/Create
         public IActionResult Create()
         {
-            ViewData["IdDokter"] = new SelectList(_context.Dokters, "IdDokter", "IdDokter");
+            ViewData["IdDokter"] = new SelectList(_context.Dokters, "IdDokter", "Nama");
             return View();
         }
 
@@ -80,7 +80,7 @@ namespace Puskemas.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdDokter"] = new SelectList(_context.Dokters, "IdDokter", "IdDokter", jadwal.IdDokter);
+            ViewData["IdDokter"] = new SelectList(_context.Dokters, "IdDokter", "Nama", jadwal.IdDokter);
             return View(jadwal);
         }
 

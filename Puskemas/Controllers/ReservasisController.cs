@@ -47,9 +47,31 @@ namespace Puskemas.Controllers
         // GET: Reservasis/Create
         public IActionResult Create()
         {
-            ViewData["IdJadwal"] = new SelectList(_context.Jadwals, "IdJadwal", "IdJadwal");
-            ViewData["IdPasien"] = new SelectList(_context.Pasiens, "IdPasien", "IdPasien");
-            return View();
+            ViewData["IdPasien"] = new SelectList(_context.Pasiens, "IdPasien", "Nama");
+            ViewData["IdJadwal"] = new SelectList(
+                _context.Jadwals.AsEnumerable().Select(j => new {
+                    IdJadwal = j.IdJadwal,
+                    TanggalFormatted = j.Tanggal.ToString("dd-MM-yyyy")
+                }),
+                "IdJadwal",
+                "TanggalFormatted"
+            );
+
+            // Ambil nomor terakhir (angka murni)
+            var nomorTerakhir = _context.Reservasis
+                .OrderByDescending(r => r.NomorAntrian)
+                .Select(r => (int?)r.NomorAntrian)
+                .FirstOrDefault();
+
+            int nomorBaru = (nomorTerakhir ?? 0) + 1;
+
+            ViewBag.NomorAntrian = nomorBaru; // tanpa format string
+
+            var reservasi = new Reservasi
+            {
+                JamSelesai = TimeSpan.Zero
+            };
+            return View(reservasi);
         }
 
         // POST: Reservasis/Create
@@ -57,16 +79,35 @@ namespace Puskemas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdPasien,IdJadwal,StatusReservasi")] Reservasi reservasi)
+        public async Task<IActionResult> Create([Bind("IdPasien,IdJadwal,StatusReservasi,JamSelesai")] Reservasi reservasi)
         {
             if (ModelState.IsValid)
             {
+                // Nomor antrian terbaru sebagai angka
+                var nomorTerakhir = _context.Reservasis
+                    .OrderByDescending(r => r.NomorAntrian)
+                    .Select(r => (int?)r.NomorAntrian)
+                    .FirstOrDefault();
+
+                int nomorBaru = (nomorTerakhir ?? 0) + 1;
+                reservasi.NomorAntrian = nomorBaru;
+
                 _context.Add(reservasi);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdJadwal"] = new SelectList(_context.Jadwals, "IdJadwal", "IdJadwal", reservasi.IdJadwal);
-            ViewData["IdPasien"] = new SelectList(_context.Pasiens, "IdPasien", "IdPasien", reservasi.IdPasien);
+
+            ViewData["IdPasien"] = new SelectList(_context.Pasiens, "IdPasien", "Nama", reservasi.IdPasien);
+            ViewData["IdJadwal"] = new SelectList(
+                _context.Jadwals.AsEnumerable().Select(j => new {
+                    IdJadwal = j.IdJadwal,
+                    TanggalFormatted = j.Tanggal.ToString("dd-MM-yyyy")
+                }),
+                "IdJadwal",
+                "TanggalFormatted",
+                reservasi.IdJadwal
+            );
+
             return View(reservasi);
         }
 
@@ -83,8 +124,17 @@ namespace Puskemas.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdJadwal"] = new SelectList(_context.Jadwals, "IdJadwal", "IdJadwal", reservasi.IdJadwal);
-            ViewData["IdPasien"] = new SelectList(_context.Pasiens, "IdPasien", "IdPasien", reservasi.IdPasien);
+
+            ViewData["IdPasien"] = new SelectList(_context.Pasiens, "IdPasien", "Nama", reservasi.IdPasien);
+            ViewData["IdJadwal"] = new SelectList(
+                _context.Jadwals.AsEnumerable().Select(j => new {
+                    IdJadwal = j.IdJadwal,
+                    TanggalFormatted = j.Tanggal.ToString("dd-MM-yyyy")
+                }),
+                "IdJadwal",
+                "TanggalFormatted",
+                reservasi.IdJadwal
+            );
             return View(reservasi);
         }
 
@@ -93,7 +143,7 @@ namespace Puskemas.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdReservasi,IdPasien,IdJadwal,StatusReservasi")] Reservasi reservasi)
+        public async Task<IActionResult> Edit(int id, [Bind("IdReservasi,IdPasien,IdJadwal,StatusReservasi,JamSelesai,NomorAntrian")] Reservasi reservasi)
         {
             if (id != reservasi.IdReservasi)
             {
@@ -120,8 +170,17 @@ namespace Puskemas.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdJadwal"] = new SelectList(_context.Jadwals, "IdJadwal", "IdJadwal", reservasi.IdJadwal);
-            ViewData["IdPasien"] = new SelectList(_context.Pasiens, "IdPasien", "IdPasien", reservasi.IdPasien);
+
+            ViewData["IdPasien"] = new SelectList(_context.Pasiens, "IdPasien", "Nama", reservasi.IdPasien);
+            ViewData["IdJadwal"] = new SelectList(
+                _context.Jadwals.AsEnumerable().Select(j => new {
+                    IdJadwal = j.IdJadwal,
+                    TanggalFormatted = j.Tanggal.ToString("dd-MM-yyyy")
+                }),
+                "IdJadwal",
+                "TanggalFormatted",
+                reservasi.IdJadwal
+            );
             return View(reservasi);
         }
 
