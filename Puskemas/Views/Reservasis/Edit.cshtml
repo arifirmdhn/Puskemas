@@ -5,67 +5,69 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h4 fw-bold text-dark">Edit Reservasi</h1>
-        <a asp-action="Index" class="btn btn-outline-secondary rounded-pill px-4 hover-gradient">
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h1 class="h4 fw-bold text-dark mb-0">Edit Reservasi</h1>
+        <a asp-action="Index" class="btn btn-outline-dark rounded-pill px-4">
             <i class="bi bi-arrow-left"></i> Kembali
         </a>
     </div>
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb bg-transparent p-0 m-0">
+            <li class="breadcrumb-item"><a href="/Admin/Dashboard" class="text-decoration-none text-dark fw-semibold">Dashboard Admin</a></li>
+            <li class="breadcrumb-item"><a asp-action="Index" class="text-decoration-none text-dark fw-semibold">Reservasi</a></li>
+            <li class="breadcrumb-item active text-secondary fw-semibold" aria-current="page">Edit</li>
+        </ol>
+    </nav>
 
-    <div class="card shadow-sm rounded-4">
-        <div class="card-body">
-            <form asp-action="Edit">
-                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+    <div class="card shadow border-0 rounded-4">
+        <div class="card-body p-4">
+            <form asp-action="Edit" method="post">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
                 <input type="hidden" asp-for="IdReservasi" />
 
-                <div class="mb-3">
-                    <label asp-for="IdPasien" class="form-label"></label>
-                    <select asp-for="IdPasien" class="form-select" asp-items="ViewBag.IdPasien"></select>
-                    <span asp-validation-for="IdPasien" class="text-danger"></span>
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <label asp-for="IdPasien" class="form-label fw-semibold text-dark"></label>
+                        <select asp-for="IdPasien" class="form-select rounded-3" asp-items="ViewBag.IdPasien"></select>
+                        <span asp-validation-for="IdPasien" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="IdJadwal" class="form-label fw-semibold text-dark"></label>
+                        <select asp-for="IdJadwal" class="form-select rounded-3" asp-items="ViewBag.IdJadwal"></select>
+                        <span asp-validation-for="IdJadwal" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="StatusReservasi" class="form-label fw-semibold text-dark"></label>
+                        <input asp-for="StatusReservasi" class="form-control rounded-3" placeholder="Contoh: Pending / Selesai" />
+                        <span asp-validation-for="StatusReservasi" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="NomorAntrian" class="form-label fw-semibold text-dark"></label>
+                        <input asp-for="NomorAntrian" class="form-control rounded-3" type="number" min="1" />
+                        <span asp-validation-for="NomorAntrian" class="text-danger small"></span>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label asp-for="JamSelesai" class="form-label fw-semibold text-dark"></label>
+                        <input asp-for="JamSelesai" class="form-control rounded-3" type="time" />
+                        <span asp-validation-for="JamSelesai" class="text-danger small"></span>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <label asp-for="IdJadwal" class="form-label"></label>
-                    <select asp-for="IdJadwal" class="form-select" asp-items="ViewBag.IdJadwal"></select>
-                    <span asp-validation-for="IdJadwal" class="text-danger"></span>
-                </div>
-
-                <div class="mb-3">
-                    <label asp-for="StatusReservasi" class="form-label"></label>
-                    <input asp-for="StatusReservasi" class="form-control" />
-                    <span asp-validation-for="StatusReservasi" class="text-danger"></span>
-                </div>
-
-                <div class="mb-3">
-                    <label asp-for="NomorAntrian" class="form-label"></label>
-                    <input asp-for="NomorAntrian" class="form-control" type="number" min="1" />
-                    <span asp-validation-for="NomorAntrian" class="text-danger"></span>
-                </div>
-
-                <div class="mb-3">
-                    <label asp-for="JamSelesai" class="form-label"></label>
-                    <input asp-for="JamSelesai" class="form-control" type="time" />
-                    <span asp-validation-for="JamSelesai" class="text-danger"></span>
-                </div>
-
-                <div class="d-flex justify-content-end">
-                    <button type="submit" class="btn text-white px-4 py-2" style="background: linear-gradient(90deg, #3b82f6, #ef4444); border-radius: 0.4rem;">
-                        <i class="bi bi-save"></i> Simpan
+                <div class="d-flex justify-content-end mt-4">
+                    <button type="submit" class="btn text-white d-flex align-items-center" style="background: #2e7d32; border-radius: 0.5rem;">
+                        Simpan Perubahan
                     </button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-<style>
-    .hover-gradient:hover {
-        color: white !important;
-        background: linear-gradient(90deg, #3b82f6, #ef4444) !important;
-        border-color: transparent !important;
-    }
-</style>
 
 @section Scripts {
     @{

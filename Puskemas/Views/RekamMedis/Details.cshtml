@@ -1,66 +1,81 @@
 ﻿@model RekamMedis
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detail Rekam Medis";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Details</h1>
+<div class="container py-4">
 
-<div>
-    <h4>RekamMedis</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.TanggalCheckup)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.TanggalCheckup)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Diagnosa)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Diagnosa)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Pengobatan)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Pengobatan)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Obat)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Obat)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Anamnesis)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Anamnesis)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.PemeriksaanFisik)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.PemeriksaanFisik)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Penatalaksanaan)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Penatalaksanaan)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Pasien)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Pasien.IdPasien)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdRekam">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <div class="d-flex justify-content-between align-items-center">
+        <h1 class="h4 fw-bold text-dark">Detail Rekam Medis</h1>
+        <a asp-action="Index" class="btn btn-outline-dark rounded-pill px-4">
+            <i class="bi bi-arrow-left"></i> Kembali
+        </a>
+    </div>
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb bg-transparent p-0 m-0">
+            <li class="breadcrumb-item"><a href="/Admin/Dashboard" class="text-decoration-none text-dark fw-semibold">Dashboard Admin</a></li>
+            <li class="breadcrumb-item"><a asp-action="Index" class="text-decoration-none text-dark fw-semibold">Rekam Medis</a></li>
+            <li class="breadcrumb-item active text-secondary fw-semibold" aria-current="page">Detail</li>
+        </ol>
+    </nav>
+
+    <div class="card shadow border-0 rounded-4">
+        <div class="card-header bg-white border-bottom-0 pt-4">
+            <h5 class="mb-0 fw-bold">Informasi Rekam Medis</h5>
+        </div>
+        <div class="card-body p-4">
+            <div class="row g-4">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h6 class="fw-semibold text-secondary">Tanggal Checkup</h6>
+                        <p class="fs-6 mb-0 text-dark">@Model.TanggalCheckup.ToString("yyyy-MM-dd")</p>
+                    </div>
+                    <hr class="my-3" />
+                    <div class="mb-3">
+                        <h6 class="fw-semibold text-secondary">Diagnosa</h6>
+                        <p class="fs-6 mb-0 text-dark">@Model.Diagnosa</p>
+                    </div>
+                    <hr class="my-3" />
+                    <div class="mb-3">
+                        <h6 class="fw-semibold text-secondary">Pengobatan</h6>
+                        <p class="fs-6 mb-0 text-dark">@Model.Pengobatan</p>
+                    </div>
+                    <hr class="my-3" />
+                    <div class="mb-3">
+                        <h6 class="fw-semibold text-secondary">Obat</h6>
+                        <p class="fs-6 mb-0 text-dark">@Model.Obat</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h6 class="fw-semibold text-secondary">Anamnesis</h6>
+                        <p class="fs-6 mb-0 text-dark">@Model.Anamnesis</p>
+                    </div>
+                    <hr class="my-3" />
+                    <div class="mb-3">
+                        <h6 class="fw-semibold text-secondary">Pemeriksaan Fisik</h6>
+                        <p class="fs-6 mb-0 text-dark">@Model.PemeriksaanFisik</p>
+                    </div>
+                    <hr class="my-3" />
+                    <div class="mb-3">
+                        <h6 class="fw-semibold text-secondary">Penatalaksanaan</h6>
+                        <p class="fs-6 mb-0 text-dark">@Model.Penatalaksanaan</p>
+                    </div>
+                    <hr class="my-3" />
+                    <div class="mb-0">
+                        <h6 class="fw-semibold text-secondary">Pasien</h6>
+                        <p class="fs-6 mb-0 text-dark">ID Pasien: @Model.Pasien?.IdPasien</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer bg-white d-flex justify-content-end gap-2 border-top-0 pb-4">
+            <a asp-action="Edit" asp-route-id="@Model?.IdRekam" class="btn btn-warning text-white rounded-pill px-4">
+                Edit
+            </a>
+        </div>
+    </div>
 </div>
