@@ -48,7 +48,7 @@ namespace Puskemas.Controllers
         // GET: RekamMedis/Create
         public IActionResult Create()
         {
-            ViewData["IdPasien"] = new SelectList(_context.Pasiens, "IdPasien", "IdPasien");
+            ViewData["IdPasien"] = new SelectList(_context.Pasiens, "IdPasien", "Nama");
             return View();
         }
 
@@ -82,7 +82,7 @@ namespace Puskemas.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdPasien"] = new SelectList(_context.Pasiens, "IdPasien", "IdPasien", rekamMedis.IdPasien);
+            ViewData["IdPasien"] = new SelectList(_context.Pasiens, "IdPasien", "Nama", rekamMedis.IdPasien);
             return View(rekamMedis);
         }
 

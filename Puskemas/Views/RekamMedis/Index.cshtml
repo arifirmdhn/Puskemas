@@ -1,48 +1,245 @@
 ﻿@model IEnumerable<RekamMedis>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Data Rekam Medis";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<h1>Index</h1>
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div>
+            <h2 class="fw-bold text-black mb-0">Data Rekam Medis</h2>
+            <nav aria-label="breadcrumb" class="mb-6">
+                <ol class="breadcrumb bg-transparent p-0 m-0">
+                    <li class="breadcrumb-item">
+                        <a asp-controller="Home" asp-action="Index" class="text-decoration-none text-secondary">Dashboard Admin</a>
+                    </li>
+                    <li class="breadcrumb-item active text-dark fw-semibold" aria-current="page">
+                        Rekam Medis
+                    </li>
+                </ol>
+            </nav>
+        </div>
+        <a asp-action="Create" class="btn text-white d-flex align-items-center" style="background: #2e7d32">
+            <i class="bi bi-plus-circle me-1"></i> Tambah Rekam Medis
+        </a>
+    </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+    <!-- Tabel desktop -->
+    <div class="card shadow border-0 rounded-4">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.TanggalCheckup)</th>
+                            <th>@Html.DisplayNameFor(model => model.Diagnosa)</th>
+                            <th>@Html.DisplayNameFor(model => model.Anamnesis)</th>
+                            <th>@Html.DisplayNameFor(model => model.Penatalaksanaan)</th>
+                            <th>Pasien</th>
+                            <th class="text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.TanggalCheckup.ToString("dd/MM/yyyy")</td>
+                                <td>@Html.DisplayFor(m => item.Diagnosa)</td>
+                                <td>@Html.DisplayFor(m => item.Anamnesis)</td>
+                                <td>@Html.DisplayFor(m => item.Penatalaksanaan)</td>
+                                <td>@item.Pasien?.Nama</td>
+                                <td class="text-center">
+                                    <div class="btn-group btn-group-sm">
+                                        <a asp-action="Edit" asp-route-id="@item.IdRekam" class="btn btn-warning text-white">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
+                                        <a asp-action="Details" asp-route-id="@item.IdRekam" class="btn text-white" style="background-color: #2e7d32">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.IdRekam" class="btn btn-danger text-white">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.TanggalCheckup)</th>
-            <th>@Html.DisplayNameFor(model => model.Diagnosa)</th>
-            <th>@Html.DisplayNameFor(model => model.Pengobatan)</th>
-            <th>@Html.DisplayNameFor(model => model.Obat)</th>
-            <th>@Html.DisplayNameFor(model => model.Anamnesis)</th>
-            <th>@Html.DisplayNameFor(model => model.PemeriksaanFisik)</th>
-            <th>@Html.DisplayNameFor(model => model.Penatalaksanaan)</th>
-            <th>@Html.DisplayNameFor(model => model.Pasien)</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+    <!-- Card + collapse untuk mobile -->
+    <div class="d-block d-md-none mt-4">
         @foreach (var item in Model)
         {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.TanggalCheckup)</td>
-                <td>@Html.DisplayFor(modelItem => item.Diagnosa)</td>
-                <td>@Html.DisplayFor(modelItem => item.Pengobatan)</td>
-                <td>@Html.DisplayFor(modelItem => item.Obat)</td>
-                <td>@Html.DisplayFor(modelItem => item.Anamnesis)</td>
-                <td>@Html.DisplayFor(modelItem => item.PemeriksaanFisik)</td>
-                <td>@Html.DisplayFor(modelItem => item.Penatalaksanaan)</td>
-                <td>@Html.DisplayFor(modelItem => item.Pasien.IdPasien)</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.IdRekam">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.IdRekam">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.IdRekam">Delete</a>
-                </td>
-            </tr>
+            var collapseId = $"collapse{item.IdRekam}";
+            <div class="card mb-3 shadow-sm">
+                <div class="card-header bg-opacity-75 d-flex justify-content-between align-items-center rounded-top">
+                    <button class="btn btn-link text-black text-decoration-none fw-bold p-0" type="button" data-bs-toggle="collapse" data-bs-target="#@collapseId" aria-expanded="false" aria-controls="@collapseId">
+                        @item.Pasien?.Nama ?? "Pasien Tidak Ada"
+                    </button>
+                    <div class="btn-group btn-group-sm">
+                        <a asp-action="Edit" asp-route-id="@item.IdRekam" class="btn btn-warning text-white">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <a asp-action="Details" asp-route-id="@item.IdRekam" class="btn text-white" style="background: #2e7d32">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.IdRekam" class="btn btn-danger text-white">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="collapse" id="@collapseId">
+                    <div class="card-body bg-light">
+                        <p class="mb-1"><strong>Tanggal Checkup:</strong> @item.TanggalCheckup.ToString("dd/MM/yyyy")</p>
+                        <p class="mb-1"><strong>Diagnosa:</strong> @item.Diagnosa</p>
+                        <p class="mb-1"><strong>Pengobatan:</strong> @item.Pengobatan</p>
+                        <p class="mb-1"><strong>Obat:</strong> @item.Obat</p>
+                        <p class="mb-1"><strong>Anamnesis:</strong> @item.Anamnesis</p>
+                        <p class="mb-1"><strong>Pemeriksaan Fisik:</strong> @item.PemeriksaanFisik</p>
+                        <p class="mb-0"><strong>Penatalaksanaan:</strong> @item.Penatalaksanaan</p>
+                    </div>
+                </div>
+            </div>
         }
-    </tbody>
-</table>
+    </div>
+</div>
+
+@section Scripts {
+
+    <!-- jQuery & DataTables -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css">
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+    <style>
+        /* Wrapper: bikin header & footer sejajar, rata kiri-kanan */
+        div.dataTables_wrapper {
+            padding: 1rem !important;
+        }
+
+            /* Container length & filter */
+            div.dataTables_wrapper .dataTables_length,
+            div.dataTables_wrapper .dataTables_filter {
+                display: flex !important;
+                align-items: center !important;
+                margin-bottom: 1rem !important;
+            }
+
+            div.dataTables_wrapper .dataTables_length {
+                float: left !important;
+            }
+
+            div.dataTables_wrapper .dataTables_filter {
+                float: right !important;
+                text-align: right !important;
+            }
+
+        /* Search input styling */
+        div.dataTables_filter input {
+            border-radius: 0.5rem !important;
+            padding: 0.4rem 0.8rem !important;
+            border: 1px solid #adb5bd !important;
+            width: 220px !important;
+            height: 30px !important;
+            margin-left: 0.5rem !important;
+        }
+
+        /* Dropdown styling */
+        div.dataTables_length select {
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+            border-radius: 0.5rem !important;
+            padding: 0.4rem 2rem 0.4rem 0.6rem !important;
+            border: #adb5bd solid 1px !important;
+            background-color: #fff !important;
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%212529'/%3E%3C/svg%3E") !important;
+            background-repeat: no-repeat !important;
+            background-position: right 0.6rem center !important;
+            background-size: 12px 12px !important;
+        }
+
+        /* Info text rata kiri bawah */
+        div.dataTables_info {
+            font-size: 0.9rem !important;
+            color: #444 !important;
+            margin-top: 0.5rem !important;
+            float: left !important;
+        }
+
+        /* Pagination di kanan bawah */
+        div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+            justify-content: flex-end !important;
+            float: right !important;
+            margin-top: 0.5rem !important;
+        }
+
+            /* Jarak antar tombol pagination */
+            div.dataTables_wrapper div.dataTables_paginate ul.pagination .paginate_button {
+                margin: 0 0.3rem !important; /* beri jarak kiri-kanan */
+            }
+
+                /* Tombol angka aktif */
+                div.dataTables_wrapper div.dataTables_paginate ul.pagination .paginate_button.current a {
+                    background-color: #212529 !important; /* hijau */
+                    color: #fff !important;
+                    border-radius: 0.4rem !important;
+                    border: none !important;
+                    padding: 0.4rem 0.8rem !important;
+                }
+
+                /* Tombol Sebelumnya & Berikutnya */
+                div.dataTables_wrapper div.dataTables_paginate ul.pagination .paginate_button.previous a,
+                div.dataTables_wrapper div.dataTables_paginate ul.pagination .paginate_button.next a {
+                    background-color: #2e7d32 !important; /* hitam */
+                    color: #fff !important;
+                    border-radius: 0.4rem !important;
+                    border: none !important;
+                    padding: 0.4rem 0.8rem !important;
+                }
+
+                /* Hover untuk semua tombol */
+                div.dataTables_wrapper div.dataTables_paginate ul.pagination .paginate_button a {
+                    background-color: #212529 !important; /* hijau saat hover */
+                    color: #fff !important;
+                    opacity: 0.9 !important;
+                }
+
+        /* Sort icon styling: putih & rapi */
+        table.dataTable thead .sorting:after,
+        table.dataTable thead .sorting_asc:after,
+        table.dataTable thead .sorting_desc:after {
+            color: #fff !important;
+            opacity: 1 !important;
+            margin-left: 0.4rem !important;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+            $('.table').DataTable({
+                "pageLength": 10,
+                "language": {
+                    "search": "Cari:",
+                    "lengthMenu": "Tampilkan _MENU_ data per halaman",
+                    "zeroRecords": "Data tidak ditemukan",
+                    "info": "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                    "infoEmpty": "Tidak ada data",
+                    "infoFiltered": "(difilter dari _MAX_ total data)",
+                    "paginate": {
+                        "first": "Pertama",
+                        "last": "Terakhir",
+                        "next": "Berikutnya",
+                        "previous": "Sebelumnya"
+                    }
+                },
+                "order": []
+            });
+        });
+    </script>
+}
