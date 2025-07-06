@@ -1,0 +1,48 @@
+﻿@model IEnumerable<RekamMedis>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.TanggalCheckup)</th>
+            <th>@Html.DisplayNameFor(model => model.Diagnosa)</th>
+            <th>@Html.DisplayNameFor(model => model.Pengobatan)</th>
+            <th>@Html.DisplayNameFor(model => model.Obat)</th>
+            <th>@Html.DisplayNameFor(model => model.Anamnesis)</th>
+            <th>@Html.DisplayNameFor(model => model.PemeriksaanFisik)</th>
+            <th>@Html.DisplayNameFor(model => model.Penatalaksanaan)</th>
+            <th>@Html.DisplayNameFor(model => model.Pasien)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.TanggalCheckup)</td>
+                <td>@Html.DisplayFor(modelItem => item.Diagnosa)</td>
+                <td>@Html.DisplayFor(modelItem => item.Pengobatan)</td>
+                <td>@Html.DisplayFor(modelItem => item.Obat)</td>
+                <td>@Html.DisplayFor(modelItem => item.Anamnesis)</td>
+                <td>@Html.DisplayFor(modelItem => item.PemeriksaanFisik)</td>
+                <td>@Html.DisplayFor(modelItem => item.Penatalaksanaan)</td>
+                <td>@Html.DisplayFor(modelItem => item.Pasien.IdPasien)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdRekam">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.IdRekam">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdRekam">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

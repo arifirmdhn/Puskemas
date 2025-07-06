@@ -10,6 +10,9 @@ public class RekamMedis
     public string Diagnosa { get; set; }
     public string Pengobatan { get; set; }
     public string Obat { get; set; }
+    public string Anamnesis { get; set; } //Tambahan
+    public string PemeriksaanFisik { get; set; } //Tambahan
+    public string Penatalaksanaan { get; set; } //Tambahan
 
-    public Pasien Pasien { get; set; }
+    public Pasien? Pasien { get; set; }
 }

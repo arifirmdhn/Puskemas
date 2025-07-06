@@ -7,7 +7,10 @@ public class Reservasi
     public int IdPasien { get; set; }
     public int IdJadwal { get; set; }
     public string StatusReservasi { get; set; }
+    public TimeSpan JamSelesai { get; set; } // Kolom baru
 
-    public Pasien Pasien { get; set; }
-    public Jadwal Jadwal { get; set; }
+    public int NomorAntrian { get; set; } // Kolom baru
+
+    public Pasien? Pasien { get; set; }
+    public Jadwal? Jadwal { get; set; }
 }

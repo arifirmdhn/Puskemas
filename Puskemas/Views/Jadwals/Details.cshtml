@@ -1,0 +1,54 @@
+﻿@model Jadwal
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Jadwal</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Hari)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Hari)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.JamMulai)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.JamMulai)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.JamSelesai)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.JamSelesai)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Tanggal)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Tanggal)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StatusJadwal)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StatusJadwal)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Dokter)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Dokter.IdDokter)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.IdJadwal">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
