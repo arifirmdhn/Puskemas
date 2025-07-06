@@ -5,66 +5,12 @@
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<<<<<<< HEAD
-<h1>Create</h1>
-
-<h4>RekamMedis</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="IdPasien" class="control-label"></label>
-                <select asp-for="IdPasien" class="form-control" asp-items="ViewBag.IdPasien"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="TanggalCheckup" class="control-label"></label>
-                <input asp-for="TanggalCheckup" type="date" class="form-control" />
-                <span asp-validation-for="TanggalCheckup" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Diagnosa" class="control-label"></label>
-                <input asp-for="Diagnosa" class="form-control" />
-                <span asp-validation-for="Diagnosa" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Pengobatan" class="control-label"></label>
-                <input asp-for="Pengobatan" class="form-control" />
-                <span asp-validation-for="Pengobatan" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Obat" class="control-label"></label>
-                <input asp-for="Obat" class="form-control" />
-                <span asp-validation-for="Obat" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Anamnesis" class="control-label"></label>
-                <input asp-for="Anamnesis" class="form-control" />
-                <span asp-validation-for="Anamnesis" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PemeriksaanFisik" class="control-label"></label>
-                <input asp-for="PemeriksaanFisik" class="form-control" />
-                <span asp-validation-for="PemeriksaanFisik" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Penatalaksanaan" class="control-label"></label>
-                <input asp-for="Penatalaksanaan" class="form-control" />
-                <span asp-validation-for="Penatalaksanaan" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-=======
 <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center">
         <h1 class="h4 fw-bold text-dark mb-0">Tambah Rekam Medis</h1>
         <a asp-action="Index" class="btn btn-outline-dark rounded-pill px-4">
             <i class="bi bi-arrow-left"></i> Kembali
         </a>
->>>>>>> 5be2a5f32ae715c08ce5faaf72aa5d5084aab443
     </div>
     <nav aria-label="breadcrumb" class="mb-3">
         <ol class="breadcrumb bg-transparent p-0 m-0">

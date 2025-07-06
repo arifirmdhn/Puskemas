@@ -89,7 +89,7 @@ namespace Puskemas.Areas.Identity.Pages.Account
                         if (roles.Contains("Admin"))
                         {
                             _logger.LogInformation("Admin logged in.");
-                            return LocalRedirect("/Dokters/Index");
+                            return LocalRedirect("/Admin/DashboardAdmin");
                         }
                         else if (roles.Contains("Dokter"))
                         {
