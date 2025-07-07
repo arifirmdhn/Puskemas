@@ -41,14 +41,14 @@ namespace Puskemas.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [EmailAddress]
+            [Display(Name = "Nama Lengkap")] // Ganti labelnya agar cocok untuk pasien
             public string Email { get; set; }
 
             [Required]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Ingat Saya?")]
             public bool RememberMe { get; set; }
         }
 
@@ -77,11 +77,13 @@ namespace Puskemas.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(Input.Email);
+                // Cari berdasarkan Username (nama pasien)
+                var user = await _userManager.FindByNameAsync(Input.Email); // Email di sini diisi Nama Pasien
+
                 if (user != null)
                 {
-                    // Lanjutkan login
-                    var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                    var result = await _signInManager.PasswordSignInAsync(user.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
                     if (result.Succeeded)
                     {
                         var roles = await _userManager.GetRolesAsync(user);
@@ -94,12 +96,17 @@ namespace Puskemas.Areas.Identity.Pages.Account
                         else if (roles.Contains("Dokter"))
                         {
                             _logger.LogInformation("Dokter logged in.");
-                            return LocalRedirect("/PasiensDokter/Index"); // Ganti ini jika perlu
+                            return LocalRedirect("/PasiensDokter/Index");
+                        }
+                        else if (roles.Contains("Pasien"))
+                        {
+                            _logger.LogInformation("Pasien logged in.");
+                            return LocalRedirect("/Pasiens/Index"); // Ubah sesuai halaman pasien
                         }
                         else
                         {
-                            _logger.LogWarning("User tanpa role valid mencoba login.");
-                            ModelState.AddModelError(string.Empty, "Akun tidak memiliki role yang diizinkan.");
+                            _logger.LogWarning("Akun tidak memiliki role yang valid.");
+                            ModelState.AddModelError(string.Empty, "Akun tidak memiliki role yang valid.");
                             return Page();
                         }
                     }
@@ -108,13 +115,14 @@ namespace Puskemas.Areas.Identity.Pages.Account
                     {
                         return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
                     }
+
                     if (result.IsLockedOut)
                     {
                         _logger.LogWarning("User account locked out.");
                         return RedirectToPage("./Lockout");
                     }
 
-                    ModelState.AddModelError(string.Empty, "Percobaan login gagal.");
+                    ModelState.AddModelError(string.Empty, "Login gagal. Silakan cek kembali username dan password.");
                     return Page();
                 }
                 else
@@ -124,7 +132,6 @@ namespace Puskemas.Areas.Identity.Pages.Account
                 }
             }
 
-            // Jika validasi model gagal
             return Page();
         }
     }

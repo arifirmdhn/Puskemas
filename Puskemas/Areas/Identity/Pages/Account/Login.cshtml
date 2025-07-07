@@ -105,8 +105,9 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
                 <div class="mb-3">
-                    <label asp-for="Input.Email" class="form-label">Email</label>
-                    <input asp-for="Input.Email" class="form-control" placeholder="you@example.com" />
+                    <label asp-for="Input.Email" class="form-label">Nama</label>
+                    <input asp-for="Input.Email" class="form-control" placeholder="Masukkan nama akun pasien / dokter / admin" />
+
                     <span asp-validation-for="Input.Email" class="text-danger"></span>
                 </div>
 
@@ -124,9 +125,7 @@
                 <button type="submit" class="btn btn-login w-100 mb-3">Login</button>
             </form>
 
-            <div class="text-end">
-                <a asp-page="./ForgotPassword">Forgot password?</a>
-            </div>
+            
         </div>
     </div>
 

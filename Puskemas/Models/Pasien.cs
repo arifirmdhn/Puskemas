@@ -36,6 +36,11 @@ public class Pasien
     [DataType(DataType.Date, ErrorMessage = "Format tanggal tidak valid")]
     public DateTime TanggalTerdaftar { get; set; }
 
+    [Required(ErrorMessage = "Password wajib diisi")]
+    [StringLength(100, ErrorMessage = "Password maksimal 100 karakter", MinimumLength = 6)]
+    [DataType(DataType.Password)]
+    public string PasswordPasien { get; set; }
+
     public ICollection<Reservasi>? Reservasis { get; set; }
     public ICollection<RekamMedis>? RekamMedis { get; set; }
 }

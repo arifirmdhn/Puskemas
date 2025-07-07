@@ -12,35 +12,31 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-// Tambahkan AppDbContext (jika kamu punya context untuk data lain)
+// Tambahkan AppDbContext (untuk data aplikasi)
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-// Konfigurasi Identity + Roles
+// Konfigurasi Identity + Role support
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
-    {
-        options.SignIn.RequireConfirmedAccount = false;
-    })
-    .AddRoles<IdentityRole>() // ?? Tambahkan ini agar bisa menggunakan Role
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+{
+    options.SignIn.RequireConfirmedAccount = false;
+})
+.AddRoles<IdentityRole>() // agar bisa pakai role
+.AddEntityFrameworkStores<ApplicationDbContext>();
 
-// Exception page saat development
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
-// Authorization
-builder.Services.AddAuthorization();
-
-// Razor Pages dan MVC Controller
+// Tambahkan Razor Pages dan MVC Controller
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
+builder.Services.AddAuthorization();
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 var app = builder.Build();
 
-// ?? Panggil seeding Admin setelah app.Build()
+// ?? Seeding Role dan Admin User
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    await CreateAdminAsync(services);
+    await SeedRolesAndAdminAsync(services);
 }
 
 // Error handling
@@ -56,13 +52,10 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Konfigurasi route utama
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
@@ -72,23 +65,26 @@ app.MapRazorPages();
 app.Run();
 
 
-// ?? METHOD SEEDING ADMIN
-async Task CreateAdminAsync(IServiceProvider serviceProvider)
+// ?? Seed Roles + Admin
+async Task SeedRolesAndAdminAsync(IServiceProvider serviceProvider)
 {
     var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
-    string roleName = "Admin";
+    string[] roles = { "Admin", "Dokter", "Pasien" };
+
+    foreach (var role in roles)
+    {
+        if (!await roleManager.RoleExistsAsync(role))
+        {
+            await roleManager.CreateAsync(new IdentityRole(role));
+        }
+    }
+
+    // Seed admin user
     string adminEmail = "admin@email.com";
     string adminPassword = "Admin123!";
 
-    // Buat role Admin jika belum ada
-    if (!await roleManager.RoleExistsAsync(roleName))
-    {
-        await roleManager.CreateAsync(new IdentityRole(roleName));
-    }
-
-    // Buat user Admin jika belum ada
     var adminUser = await userManager.FindByEmailAsync(adminEmail);
     if (adminUser == null)
     {
@@ -102,7 +98,7 @@ async Task CreateAdminAsync(IServiceProvider serviceProvider)
         var result = await userManager.CreateAsync(user, adminPassword);
         if (result.Succeeded)
         {
-            await userManager.AddToRoleAsync(user, roleName);
+            await userManager.AddToRoleAsync(user, "Admin");
         }
     }
 }
